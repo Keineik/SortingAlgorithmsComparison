@@ -144,7 +144,7 @@ void flashSortVerComp(int a[], int n, long long &comp) {
     }
     if (++comp && a[MAXid] == MIN) return;
 
-    int m = 0.01*n;
+    int m = 0.1*n;
     int *bucket = new int[m] {};
     double coef = (m - 1.0)/(a[MAXid] - MIN);
 
@@ -185,7 +185,7 @@ void flashSortVerTime(int a[], int n, double &time) {
     }
     if (a[MAXid] == MIN) return;
 
-    int m = 0.01*n;
+    int m = 0.1*n;
     int *bucket = new int[m] {};
     double coef = (m - 1.0)/(a[MAXid] - MIN);
 
