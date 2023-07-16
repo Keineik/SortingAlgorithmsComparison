@@ -144,7 +144,7 @@ void flashSortVerComp(int a[], int n, long long &comp) {
     }
     if (++comp && a[MAXid] == MIN) return;
 
-    int m = ceil(sqrt(a[MAXid] - MIN + 1));
+    int m = 0.01*n;
     int *bucket = new int[m] {};
     double coef = (m - 1.0)/(a[MAXid] - MIN);
 
@@ -159,16 +159,16 @@ void flashSortVerComp(int a[], int n, long long &comp) {
     swap(a[0], a[MAXid]);
     for (int i = 0, j = 0, k = m - 1; i < n;) {
         for (; j > bucket[k];) k = coef*(a[++j] - MIN);
-        for (; j <= bucket[k]; i++) {
-            k = coef*(a[j] - MIN);
-            if (++comp && --bucket[k] < 0) break;
-            swap(a[j], a[bucket[k]]);
+        int temp = a[j];
+        for (;++comp && j <= bucket[k]; i++) {
+            k = coef*(temp - MIN);
+            swap(temp, a[bucket[k]--]);
         }
     }
 
     // insertion sort
     for (int i = 0; i < n; i++)
-        for (int j = i; j > 0 && a[j - 1] > a[j]; j--)
+        for (int j = i; ++comp && j > 0 && a[j - 1] > a[j]; j--)
             swap(a[j], a[j - 1]);
     
     delete[] bucket;
@@ -185,7 +185,7 @@ void flashSortVerTime(int a[], int n, double &time) {
     }
     if (a[MAXid] == MIN) return;
 
-    int m = ceil(sqrt(a[MAXid] - MIN + 1));
+    int m = 0.01*n;
     int *bucket = new int[m] {};
     double coef = (m - 1.0)/(a[MAXid] - MIN);
 
@@ -200,17 +200,17 @@ void flashSortVerTime(int a[], int n, double &time) {
     swap(a[0], a[MAXid]);
     for (int i = 0, j = 0, k = m - 1; i < n;) {
         for (; j > bucket[k];) k = coef*(a[++j] - MIN);
+        int temp = a[j];
         for (; j <= bucket[k]; i++) {
-            k = coef*(a[j] - MIN);
-            if (--bucket[k] < 0) break;
-            swap(a[j], a[bucket[k]]);
+            k = coef*(temp - MIN);
+            swap(temp, a[bucket[k]--]);
         }
     }
 
     // insertion sort
     for (int i = 0; i < n; i++)
         for (int j = i; j > 0 && a[j - 1] > a[j]; j--)
-        swap(a[j], a[j - 1]);
+            swap(a[j], a[j - 1]);
     
     delete[] bucket;
     end = double(clock());
