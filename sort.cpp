@@ -33,7 +33,7 @@ void quickSortVerTime(int a[], int l, int r, double &time){
 }
 
 void mergeVerComp(int a[], int l, int r, long long &comp) {
-    int b[r - l + 1];
+    int *b = new int[r - l + 1];
     int m = l + (r - l)/2;
     int b_id = 0, l_id = l, r_id = m + 1;
     for (int i = l; i <= r; i++) {
@@ -43,6 +43,7 @@ void mergeVerComp(int a[], int l, int r, long long &comp) {
             b[b_id++] = a[r_id++];
     }
     for (int i = l; i <= r; i++) a[i] = b[i - l];
+    delete[] b;
 }
 
 void mergeSortVerComp(int a[], int l, int r, long long &comp) {
@@ -143,8 +144,8 @@ void flashSortVerComp(int a[], int n, long long &comp) {
     }
     if (++comp && a[MAXid] == MIN) return;
 
-    int m = 0.43 * n;
-    int bucket[m] {};
+    int m = ceil(sqrt(a[MAXid] - MIN + 1));
+    int *bucket = new int[m] {};
     double coef = (m - 1.0)/(a[MAXid] - MIN);
 
     // count the number of elements in each bucket
@@ -169,6 +170,8 @@ void flashSortVerComp(int a[], int n, long long &comp) {
     for (int i = 0; i < n; i++)
         for (int j = i; j > 0 && a[j - 1] > a[j]; j--)
             swap(a[j], a[j - 1]);
+    
+    delete[] bucket;
 }
 
 void flashSortVerTime(int a[], int n, double &time) {
@@ -182,8 +185,8 @@ void flashSortVerTime(int a[], int n, double &time) {
     }
     if (a[MAXid] == MIN) return;
 
-    int m = 0.43 * n;
-    int bucket[m] {};
+    int m = ceil(sqrt(a[MAXid] - MIN + 1));
+    int *bucket = new int[m] {};
     double coef = (m - 1.0)/(a[MAXid] - MIN);
 
     // count the number of elements in each bucket
@@ -208,7 +211,8 @@ void flashSortVerTime(int a[], int n, double &time) {
     for (int i = 0; i < n; i++)
         for (int j = i; j > 0 && a[j - 1] > a[j]; j--)
         swap(a[j], a[j - 1]);
-
+    
+    delete[] bucket;
     end = double(clock());
     time = (double(end) - double(start))/double(CLOCKS_PER_SEC);
 }
