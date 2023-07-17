@@ -6,15 +6,19 @@
 void sorting_by_comp(string sortName, int *arr, int n, long long &comp){
     comp = 0;
     if (sortName == "bubble-sort"){
+        bubbleSortVerComp(arr, n, comp);
         return;
     }
     else if (sortName == "insertion-sort"){
+        insertionSortVerComp(arr, n, comp);
         return;
     }
     else if (sortName == "shaker-sort"){
+        shakerSortVerComp(arr, n, comp);
         return;
     }
     else if (sortName == "selection-sort"){
+        selectionSortVerComp(arr, n, comp);
         return;
     }
     else if (sortName == "heap-sort"){
@@ -46,15 +50,19 @@ void sorting_by_comp(string sortName, int *arr, int n, long long &comp){
 
 void sorting_by_time(string sortName, int *arr, int n, double &time){
     if (sortName == "bubble-sort"){
+        bubbleSortVerTime(arr, n, time);
         return;
     }
     else if (sortName == "insertion-sort"){
+        insertionSortVerTime(arr, n, time);
         return;
     }
     else if (sortName == "shaker-sort"){
+        shakerSortVerTime(arr, n, time);
         return;
     }
     else if (sortName == "selection-sort"){
+        selectionSortVerTime(arr, n, time);
         return;
     }
     else if (sortName == "heap-sort"){
