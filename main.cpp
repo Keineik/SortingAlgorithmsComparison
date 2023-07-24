@@ -308,7 +308,9 @@ int main(int argc, char *argv[])
                     algoOutput(argv[argc - 1], comp, time, order);
                 }
             }
-            writeFile("output.txt", arr, n);
+            string outputfile; 
+            outputfile = string(argv[2]) + "_" +  string(argv[3]);
+            writeFile(outputfile, arr, n);
             delete[] arr;
         }
         else if (string(argv[1]) == "-c")

@@ -193,12 +193,12 @@ void flashSortVerComp(int a[], int n, long long &comp)
     double coef = (m - 1.0) / (a[MAXid] - MIN);
 
     // count the number of elements in each bucket
-    for (int i = 0; i < n; i++)
+    for (int i = 0; ++comp && i < n; i++)
     {
         int j = coef * (a[i] - MIN);
         bucket[j]++;
     }
-    for (int i = 1; i < m; i++)
+    for (int i = 1; ++comp && i < m; i++)
         bucket[i] += bucket[i - 1];
 
     // put elements in their rightful buckets
