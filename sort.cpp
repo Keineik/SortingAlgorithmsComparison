@@ -59,6 +59,7 @@ void mergeVerComp(int a[], int l, int r, long long &comp)
         else
             b[b_id++] = a[r_id++];
     }
+    // copy from temp array to original array
     for (int i = l; ++comp && i <= r; i++)
         a[i] = b[i - l];
     delete[] b;
@@ -87,6 +88,7 @@ void merge(int a[], int l, int r)
         else
             b[b_id++] = a[r_id++];
     }
+    // copy from temp array to original array
     for (int i = l; i <= r; i++)
         a[i] = b[i - l];
     delete[] b;
@@ -114,12 +116,15 @@ void mergeSortVerTime(int a[], int l, int r, double &time)
 
 void heapifyVerComp(int a[], int n, int k, long long &comp)
 {
+    // find, verify existence of children nodes and find the max children
     int lc = 2 * k + 1, rc = 2 * k + 2;
     if (++comp && lc >= n)
         return;
     int maxc = lc;
     if ((++comp && rc < n) && (++comp && a[rc] > a[lc]))
         maxc = rc;
+    
+    // if max children is larger than the father node
     if (++comp && a[maxc] > a[k])
     {
         swap(a[maxc], a[k]);
@@ -129,24 +134,30 @@ void heapifyVerComp(int a[], int n, int k, long long &comp)
 
 void heapSortVerComp(int a[], int n, long long &comp)
 {
+    // build heap from scratch
     for (int i = (n - 1) / 2; ++comp && i >= 0; i--)
         heapifyVerComp(a, n, i, comp);
+    
     int heapSize = n;
     while (++comp && heapSize)
     {
         swap(a[0], a[--heapSize]);
+        // maintain heap
         heapifyVerComp(a, heapSize, 0, comp);
     }
 }
 
 void heapify(int a[], int n, int k)
 {
+    // find, verify existence of children nodes and find the max children
     int lc = 2 * k + 1, rc = 2 * k + 2;
     if (lc >= n)
         return;
     int maxc = lc;
     if (rc < n && a[rc] > a[lc])
         maxc = rc;
+    
+    // if max children is larger than the father node
     if (a[maxc] > a[k])
     {
         swap(a[maxc], a[k]);
@@ -156,12 +167,14 @@ void heapify(int a[], int n, int k)
 
 void heapSort(int a[], int n)
 {
+    // build heap from scratch
     for (int i = (n - 1) / 2; i >= 0; i--)
         heapify(a, n, i);
     int heapSize = n;
     while (heapSize)
     {
         swap(a[0], a[--heapSize]);
+        // maintain heap
         heapify(a, heapSize, 0);
     }
 }
@@ -177,6 +190,7 @@ void heapSortVerTime(int a[], int n, double &time)
 
 void flashSortVerComp(int a[], int n, long long &comp)
 {
+    // find max index, min
     int MAXid = 0, MIN = a[0];
     for (int i = 1; ++comp && i < n; i++)
     {
@@ -187,6 +201,7 @@ void flashSortVerComp(int a[], int n, long long &comp)
     if (++comp && a[MAXid] == MIN)
         return;
 
+    // set bucket size, create bucket array
     int m = 0.1 * n;
     int *bucket = new int[m]{};
     bucket[0] = -1;
@@ -198,6 +213,7 @@ void flashSortVerComp(int a[], int n, long long &comp)
         int j = coef * (a[i] - MIN);
         bucket[j]++;
     }
+    // turn bucket array into prefix sum array
     for (int i = 1; ++comp && i < m; i++)
         bucket[i] += bucket[i - 1];
 
@@ -228,6 +244,7 @@ void flashSortVerTime(int a[], int n, double &time)
     clock_t start, end;
     start = double(clock());
 
+    // find max index, min
     int MAXid = 0, MIN = a[0];
     for (int i = 1; i < n; i++)
     {
@@ -238,6 +255,7 @@ void flashSortVerTime(int a[], int n, double &time)
     if (a[MAXid] == MIN)
         return;
 
+    // set bucket size, create bucket array
     int m = 0.1 * n;
     int *bucket = new int[m]{};
     bucket[0] = -1;
@@ -249,6 +267,7 @@ void flashSortVerTime(int a[], int n, double &time)
         int j = coef * (a[i] - MIN);
         bucket[j]++;
     }
+    // turn bucket array into prefix sum array
     for (int i = 1; i < m; i++)
         bucket[i] += bucket[i - 1];
 
@@ -320,12 +339,14 @@ void selectionSortVerComp(int arr[], int n, long long &comp)
 {
     for (int i = 0; ++comp && i < n - 1; i++)
     {
+        // find min element
         int min_idx = i;
         for (int j = i + 1; ++comp && j < n; j++)
         {
             if (++comp && arr[j] < arr[min_idx])
                 min_idx = j;
         }
+        // bring min element to it's rightful place
         if (++comp && min_idx != i)
             swap(arr[min_idx], arr[i]);
     }
@@ -337,12 +358,14 @@ void selectionSortVerTime(int arr[], int n, double &time)
     start = double(clock());
     for (int i = 0; i < n - 1; i++)
     {
+        // find min element
         int min_idx = i;
         for (int j = i + 1; j < n; j++)
         {
             if (arr[j] < arr[min_idx])
                 min_idx = j;
         }
+        // bring min element to it's rightful place
         if (min_idx != i)
             swap(arr[min_idx], arr[i]);
     }
@@ -356,11 +379,13 @@ void insertionSortVerComp(int arr[], int n, long long &comp)
     {
         int key = arr[i];
         int j = i - 1;
+        // move element bigger than key to the right
         while (++comp && j >= 0 && ++comp && arr[j] > key)
         {
             arr[j + 1] = arr[j];
             j = j - 1;
         }
+        // put key into it's rightful place
         arr[j + 1] = key;
     }
 }
@@ -373,11 +398,13 @@ void insertionSortVerTime(int arr[], int n, double &time)
     {
         int key = arr[i];
         int j = i - 1;
+        // move element bigger than key to the right
         while (j >= 0 && arr[j] > key)
         {
             arr[j + 1] = arr[j];
             j = j - 1;
         }
+        // put key into it's rightful place
         arr[j + 1] = key;
     }
     end = double(clock());
@@ -455,17 +482,17 @@ void shakerSortVerTime(int a[], int n, double &time)
 
 void countingSortVerComp(int a[], int n, long long &comp)
 {
+    // find max
     int MAX = a[0];
     for (int i = 1; ++comp && i < n; i++)
         if (++comp && MAX < a[i])
             MAX = a[i];
 
-    int *f = new int[MAX + 1];
-    for (int i = 0; ++comp && i < MAX + 1; i++)
-        f[i] = 0;
-
+    int *f = new int[MAX + 1] {};
+    // count elements
     for (int i = 0; ++comp && i < n; i++)
         f[a[i]]++;
+    // put them back in sorted order
     for (int i = 0, id = 0; ++comp && i <= MAX && ++comp && id < n; i++)
         while (++comp && f[i]-- > 0)
             a[id++] = i;
@@ -481,11 +508,11 @@ void countingSortVerTime(int a[], int n, double &time)
         if (MAX < a[i])
             MAX = a[i];
 
-    int *f = new int[MAX + 1];
-    for (int i = 0; i < MAX + 1; i++)
-        f[i] = 0;
+    int *f = new int[MAX + 1] {};
+    // count elements
     for (int i = 0; i < n; i++)
         f[a[i]]++;
+    // put them back in sorted order
     for (int i = 0, id = 0; i <= MAX && id < n; i++)
         while (f[i]-- > 0)
             a[id++] = i;
@@ -496,6 +523,7 @@ void countingSortVerTime(int a[], int n, double &time)
 
 void radixSortVerComp(int a[], int n, long long &comp)
 {
+    // find max
     int MAX = a[0];
     for (int i = 1; ++comp && i < n; i++)
         if (MAX < a[i])
@@ -503,20 +531,22 @@ void radixSortVerComp(int a[], int n, long long &comp)
 
     for (int k = 1; ++comp && k <= MAX; k *= 10)
     {
-        int f[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        int *b = new int[n];
-        for (int i = 0; ++comp && i < n; i++)
-            b[i] = 0;
+        int f[10] {};
+        int *b = new int[n] {};
+        // count
         for (int i = 0; ++comp && i < n; i++)
             f[a[i] / k % 10]++;
+        // get prefix sum
         for (int i = 1; ++comp && i <= 9; i++)
             f[i] += f[i - 1];
+        // put them in temp array in sorted order
         for (int i = n - 1; ++comp && i >= 0; i--)
         {
             int j = a[i] / k % 10;
             b[f[j] - 1] = a[i];
             f[j]--;
         }
+        // copy from temp array to original array
         for (int i = 0; ++comp && i < n; i++)
             a[i] = b[i];
         delete[] b;
@@ -534,20 +564,22 @@ void radixSortVerTime(int a[], int n, double &time)
 
     for (int k = 1; k <= MAX; k *= 10)
     {
-        int f[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        int *b = new int[n];
-        for (int i = 0; i < n; i++)
-            b[i] = 0;
+        int f[10] {};
+        int *b = new int[n] {};
+        // count
         for (int i = 0; i < n; i++)
             f[a[i] / k % 10]++;
+        // get prefix sum
         for (int i = 1; i <= 9; i++)
             f[i] += f[i - 1];
+        // put them in temp array in sorted order
         for (int i = n - 1; i >= 0; i--)
         {
             int j = a[i] / k % 10;
             b[f[j] - 1] = a[i];
             f[j]--;
         }
+        // copy from temp array to original array
         for (int i = 0; i < n; i++)
             a[i] = b[i];
         delete[] b;
