@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <new>
 
+// This function will be called when you want to count the number of comparisons of a sort.
 void sorting_by_comp(string sortName, int *arr, int n, long long &comp)
 {
     comp = 0;
@@ -63,6 +64,7 @@ void sorting_by_comp(string sortName, int *arr, int n, long long &comp)
     }
 }
 
+// This function will be called when you want to know how much time does the sort algorithm take to run.
 void sorting_by_time(string sortName, int *arr, int n, double &time)
 {
     if (sortName == "bubble-sort")
@@ -122,6 +124,7 @@ void sorting_by_time(string sortName, int *arr, int n, double &time)
     }
 }
 
+// This is for the output sample of algorithm mode
 void algoOutput(string output, long long comp, double time, string order = "")
 {
     if (order != "")
@@ -137,6 +140,7 @@ void algoOutput(string output, long long comp, double time, string order = "")
     cout << endl;
 }
 
+// This is for the output sample of comparison mode
 void compOutput(string output, long long comp1, long long comp2, double time1, double time2)
 {
     cout << "-------------------------" << endl;
@@ -145,6 +149,7 @@ void compOutput(string output, long long comp1, long long comp2, double time1, d
     cout << endl;
 }
 
+// For reading a file content into the array
 void readFile(string filename, int *&arr, int &n)
 {
     ifstream ifs(filename);
@@ -157,6 +162,7 @@ void readFile(string filename, int *&arr, int &n)
     ifs.close();
 }
 
+// Write the content of the array into the file
 void writeFile(string filename, int *arr, int n)
 {
     ofstream ofs(filename);
@@ -166,10 +172,13 @@ void writeFile(string filename, int *arr, int n)
     ofs.close();
 }
 
+
 int main(int argc, char *argv[])
 {
+    // CLI handling
     if (argc > 1)
     {
+        // Algorithm mode
         if (string(argv[1]) == "-a")
         {
             cout << "ALGORITHM MODE" << endl;
@@ -178,6 +187,7 @@ int main(int argc, char *argv[])
             long long comp = 0;
             double time = 1;
 
+            // CMD 1
             if (string(argv[3]).find(".txt") != -1)
             {
                 readFile(string(argv[3]), arr, n);
@@ -202,6 +212,8 @@ int main(int argc, char *argv[])
                 n = atoi(argv[3]);
                 arr = new int[n];
                 cout << "Input size: " << n << endl;
+
+                // For CMD 2
                 if (argc == 6)
                 {
                     string order, file = "input.txt";
@@ -241,6 +253,8 @@ int main(int argc, char *argv[])
 
                     algoOutput(argv[argc - 1], comp, time, order);
                 }
+
+                // For CMD 3
                 else if (argc == 5)
                 {
                     string order = "Randomize";
@@ -313,6 +327,8 @@ int main(int argc, char *argv[])
             writeFile(outputfile, arr, n);
             delete[] arr;
         }
+
+        // Comparison mode
         else if (string(argv[1]) == "-c")
         {
             cout << "COMPARE MODE" << endl;
@@ -322,6 +338,7 @@ int main(int argc, char *argv[])
             long long comp1 = 0, comp2 = 0;
             double time1 = 0, time2 = 0;
 
+            // CMD 4
             if (string(argv[4]).find(".txt") != -1)
             {
                 cout << "Input file: " << argv[4] << endl;
@@ -341,6 +358,8 @@ int main(int argc, char *argv[])
                 cout << "Input size: " << n << endl;
                 compOutput(argv[argc - 1], comp1, comp2, time1, time2);
             }
+
+            // CMD 5
             else
             {
                 n = atoi(argv[4]);
